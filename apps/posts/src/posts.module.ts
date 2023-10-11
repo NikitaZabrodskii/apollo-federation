@@ -1,0 +1,23 @@
+import { Module } from '@nestjs/common';
+import { PostsService } from './posts.service';
+import { PostsResolver } from './posts.resolver';
+import { GraphQLModule } from '@nestjs/graphql';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
+import { UserResolver } from './users.resolver';
+
+@Module({
+  imports: [
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      playground: true,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
+  ],
+  providers: [PostsResolver, PostsService, UserResolver],
+})
+export class PostsModule {}
